@@ -1,29 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ExerciceService } from '../services/exercice.service';
+import { environment } from 'src/environments/environment.development';
+//import { environment } from '../environments/environment'; // Importez l'environnement correspondant
 
 @Injectable()
 export class AuthInterceptorInterceptor implements HttpInterceptor {
-  //private key = 'pHh+iiqNN8I/kSd9h/5pMg==nmHz1huyefwQPKIw';
+  apiKey = environment.apiKey; // Utilisez la clé d'API de l'environnement
 
-
-  constructor(private auh:ExerciceService) {
-    
-  }
-
-  intercept(
-    request: HttpRequest<unknown>,
-     next: HttpHandler): 
-     Observable<HttpEvent<unknown>> 
-     {
-    const auth ='pHh+iiqNN8I/kSd9h/5pMg==nmHz1huyefwQPKIw'
+  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const modifiedRequest = request.clone({
-  
-      headers: request.headers.set('x-api-key',auth)
+      setHeaders: {
+        'x-api-key': this.apiKey
+      }
     });
-     console.log(modifiedRequest);
-    
 
     return next.handle(modifiedRequest);
   }
