@@ -65,6 +65,7 @@
               ]
             }
           },
+          
           "defaultConfiguration": "production"
         },
         "serve": {
